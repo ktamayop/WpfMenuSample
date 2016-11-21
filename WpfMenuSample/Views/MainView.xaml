@@ -1,0 +1,33 @@
+﻿<Window x:Class="WpfMenuSample.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:WpfMenuSample.ViewModels"
+        xmlns:mvvm="http://prismlibrary.com/"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525"
+        mvvm:ViewModelLocator.AutoWireViewModel="True"
+        d:DataContext="{d:DesignInstance viewModels:MainViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem x:Name="Menu" Header="File">
+                <MenuItem Header="New File..." Command="{Binding NewFileCommand}" />
+                <MenuItem Header="Open File..." Command="{Binding OpenFileCommand}" />
+                <MenuItem Header="Recent Files"
+        ItemsSource="{Binding Path=RaptManager.RaptConfiguration.RecentFiles}"
+        Command="{Binding OpenFileCommand}">
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header" Value="{Binding}" />
+                            <Setter Property="Command" Value="{Binding ElementName=Menu, Path=DataContext.OpenFileCommand}" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</Window>
